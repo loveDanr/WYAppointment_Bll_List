@@ -1,0 +1,570 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://HIS.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://HIS.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://HIS.org/">
+      <s:element name="CreateCardPatInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RequestXml" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateCardPatInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CreateCardPatInfoResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPatInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RequestXml" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPatInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetPatInfoResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="OpRegister">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RequestXml" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="OpRegisterResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="OpRegisterResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CancelReg">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RequestXml" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CancelRegResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CancelRegResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetOutDepaList">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RequestXml" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetOutDepaListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetOutDepaListResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetDOCRBList">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RequestXml" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetDOCRBListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetDOCRBListResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRegList">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RequestXml" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRegListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetRegListResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStopList">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetStopListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetStopListResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRegCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RequestXml" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRegCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetRegCountResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSchemaList">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RequestXml" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSchemaListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetSchemaListResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRegINfor">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RequestXml" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRegINforResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetRegINforResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="NetTest">
+        <s:complexType />
+      </s:element>
+      <s:element name="NetTestResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="NetTestResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetServiceTime">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetServiceTimeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetServiceTimeResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="CreateCardPatInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateCardPatInfo" />
+  </wsdl:message>
+  <wsdl:message name="CreateCardPatInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateCardPatInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPatInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPatInfo" />
+  </wsdl:message>
+  <wsdl:message name="GetPatInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPatInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="OpRegisterSoapIn">
+    <wsdl:part name="parameters" element="tns:OpRegister" />
+  </wsdl:message>
+  <wsdl:message name="OpRegisterSoapOut">
+    <wsdl:part name="parameters" element="tns:OpRegisterResponse" />
+  </wsdl:message>
+  <wsdl:message name="CancelRegSoapIn">
+    <wsdl:part name="parameters" element="tns:CancelReg" />
+  </wsdl:message>
+  <wsdl:message name="CancelRegSoapOut">
+    <wsdl:part name="parameters" element="tns:CancelRegResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetOutDepaListSoapIn">
+    <wsdl:part name="parameters" element="tns:GetOutDepaList" />
+  </wsdl:message>
+  <wsdl:message name="GetOutDepaListSoapOut">
+    <wsdl:part name="parameters" element="tns:GetOutDepaListResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetDOCRBListSoapIn">
+    <wsdl:part name="parameters" element="tns:GetDOCRBList" />
+  </wsdl:message>
+  <wsdl:message name="GetDOCRBListSoapOut">
+    <wsdl:part name="parameters" element="tns:GetDOCRBListResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetRegListSoapIn">
+    <wsdl:part name="parameters" element="tns:GetRegList" />
+  </wsdl:message>
+  <wsdl:message name="GetRegListSoapOut">
+    <wsdl:part name="parameters" element="tns:GetRegListResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetStopListSoapIn">
+    <wsdl:part name="parameters" element="tns:GetStopList" />
+  </wsdl:message>
+  <wsdl:message name="GetStopListSoapOut">
+    <wsdl:part name="parameters" element="tns:GetStopListResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetRegCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetRegCount" />
+  </wsdl:message>
+  <wsdl:message name="GetRegCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetRegCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetSchemaListSoapIn">
+    <wsdl:part name="parameters" element="tns:GetSchemaList" />
+  </wsdl:message>
+  <wsdl:message name="GetSchemaListSoapOut">
+    <wsdl:part name="parameters" element="tns:GetSchemaListResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetRegINforSoapIn">
+    <wsdl:part name="parameters" element="tns:GetRegINfor" />
+  </wsdl:message>
+  <wsdl:message name="GetRegINforSoapOut">
+    <wsdl:part name="parameters" element="tns:GetRegINforResponse" />
+  </wsdl:message>
+  <wsdl:message name="NetTestSoapIn">
+    <wsdl:part name="parameters" element="tns:NetTest" />
+  </wsdl:message>
+  <wsdl:message name="NetTestSoapOut">
+    <wsdl:part name="parameters" element="tns:NetTestResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetServiceTimeSoapIn">
+    <wsdl:part name="parameters" element="tns:GetServiceTime" />
+  </wsdl:message>
+  <wsdl:message name="GetServiceTimeSoapOut">
+    <wsdl:part name="parameters" element="tns:GetServiceTimeResponse" />
+  </wsdl:message>
+  <wsdl:portType name="HYServicesSoap">
+    <wsdl:operation name="CreateCardPatInfo">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">用户注册。</wsdl:documentation>
+      <wsdl:input message="tns:CreateCardPatInfoSoapIn" />
+      <wsdl:output message="tns:CreateCardPatInfoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPatInfo">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">通过身份证号+姓名获取用户基本信息。</wsdl:documentation>
+      <wsdl:input message="tns:GetPatInfoSoapIn" />
+      <wsdl:output message="tns:GetPatInfoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="OpRegister">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">挂号(微医)。</wsdl:documentation>
+      <wsdl:input message="tns:OpRegisterSoapIn" />
+      <wsdl:output message="tns:OpRegisterSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CancelReg">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">退号(微医)。</wsdl:documentation>
+      <wsdl:input message="tns:CancelRegSoapIn" />
+      <wsdl:output message="tns:CancelRegSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetOutDepaList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">查询挂号/预约挂号科室排班的门诊科室列表。</wsdl:documentation>
+      <wsdl:input message="tns:GetOutDepaListSoapIn" />
+      <wsdl:output message="tns:GetOutDepaListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDOCRBList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">查询有效排班的出诊医生列表。</wsdl:documentation>
+      <wsdl:input message="tns:GetDOCRBListSoapIn" />
+      <wsdl:output message="tns:GetDOCRBListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRegList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">挂号记录查询。</wsdl:documentation>
+      <wsdl:input message="tns:GetRegListSoapIn" />
+      <wsdl:output message="tns:GetRegListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetStopList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">查询停诊信息。</wsdl:documentation>
+      <wsdl:input message="tns:GetStopListSoapIn" />
+      <wsdl:output message="tns:GetStopListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRegCount">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根据病历号+科室名称获取挂号次数</wsdl:documentation>
+      <wsdl:input message="tns:GetRegCountSoapIn" />
+      <wsdl:output message="tns:GetRegCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSchemaList">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">剩余号源查询</wsdl:documentation>
+      <wsdl:input message="tns:GetSchemaListSoapIn" />
+      <wsdl:output message="tns:GetSchemaListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRegINfor">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">按时间段查询挂号记录。</wsdl:documentation>
+      <wsdl:input message="tns:GetRegINforSoapIn" />
+      <wsdl:output message="tns:GetRegINforSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="NetTest">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">网络测试</wsdl:documentation>
+      <wsdl:input message="tns:NetTestSoapIn" />
+      <wsdl:output message="tns:NetTestSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetServiceTime">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">获取系统服务器时间。</wsdl:documentation>
+      <wsdl:input message="tns:GetServiceTimeSoapIn" />
+      <wsdl:output message="tns:GetServiceTimeSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="HYServicesSoap" type="tns:HYServicesSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="CreateCardPatInfo">
+      <soap:operation soapAction="http://HIS.org/CreateCardPatInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPatInfo">
+      <soap:operation soapAction="http://HIS.org/GetPatInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OpRegister">
+      <soap:operation soapAction="http://HIS.org/OpRegister" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CancelReg">
+      <soap:operation soapAction="http://HIS.org/CancelReg" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOutDepaList">
+      <soap:operation soapAction="http://HIS.org/GetOutDepaList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDOCRBList">
+      <soap:operation soapAction="http://HIS.org/GetDOCRBList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRegList">
+      <soap:operation soapAction="http://HIS.org/GetRegList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStopList">
+      <soap:operation soapAction="http://HIS.org/GetStopList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRegCount">
+      <soap:operation soapAction="http://HIS.org/GetRegCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSchemaList">
+      <soap:operation soapAction="http://HIS.org/GetSchemaList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRegINfor">
+      <soap:operation soapAction="http://HIS.org/GetRegINfor" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NetTest">
+      <soap:operation soapAction="http://HIS.org/NetTest" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetServiceTime">
+      <soap:operation soapAction="http://HIS.org/GetServiceTime" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="HYServicesSoap12" type="tns:HYServicesSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="CreateCardPatInfo">
+      <soap12:operation soapAction="http://HIS.org/CreateCardPatInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPatInfo">
+      <soap12:operation soapAction="http://HIS.org/GetPatInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OpRegister">
+      <soap12:operation soapAction="http://HIS.org/OpRegister" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CancelReg">
+      <soap12:operation soapAction="http://HIS.org/CancelReg" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOutDepaList">
+      <soap12:operation soapAction="http://HIS.org/GetOutDepaList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDOCRBList">
+      <soap12:operation soapAction="http://HIS.org/GetDOCRBList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRegList">
+      <soap12:operation soapAction="http://HIS.org/GetRegList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStopList">
+      <soap12:operation soapAction="http://HIS.org/GetStopList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRegCount">
+      <soap12:operation soapAction="http://HIS.org/GetRegCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSchemaList">
+      <soap12:operation soapAction="http://HIS.org/GetSchemaList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRegINfor">
+      <soap12:operation soapAction="http://HIS.org/GetRegINfor" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NetTest">
+      <soap12:operation soapAction="http://HIS.org/NetTest" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetServiceTime">
+      <soap12:operation soapAction="http://HIS.org/GetServiceTime" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="HYServices">
+    <wsdl:port name="HYServicesSoap" binding="tns:HYServicesSoap">
+      <soap:address location="http://10.1.10.74:81/HYServices.asmx" />
+    </wsdl:port>
+    <wsdl:port name="HYServicesSoap12" binding="tns:HYServicesSoap12">
+      <soap12:address location="http://10.1.10.74:81/HYServices.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

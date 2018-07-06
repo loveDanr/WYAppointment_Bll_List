@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://service.unify.custom.open.hrs.greenline.com/" name="UnifyAccountCheckService" targetNamespace="http://service.unify.custom.open.hrs.greenline.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xs:schema xmlns:tns="http://service.unify.custom.open.hrs.greenline.com/" elementFormDefault="unqualified" targetNamespace="http://service.unify.custom.open.hrs.greenline.com/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="AccountCheck" type="tns:AccountCheck" />
+      <xs:element name="AccountCheckResponse" type="tns:AccountCheckResponse" />
+      <xs:complexType name="AccountCheck">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="AccountCheckResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="AccountCheck">
+    <wsdl:part name="parameters" element="ns1:AccountCheck" />
+  </wsdl:message>
+  <wsdl:message name="AccountCheckResponse">
+    <wsdl:part name="parameters" element="ns1:AccountCheckResponse" />
+  </wsdl:message>
+  <wsdl:portType name="UnifyAccountCheckService">
+    <wsdl:operation name="AccountCheck">
+      <wsdl:input name="AccountCheck" message="ns1:AccountCheck" />
+      <wsdl:output name="AccountCheckResponse" message="ns1:AccountCheckResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+</wsdl:definitions>

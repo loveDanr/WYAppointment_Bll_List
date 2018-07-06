@@ -1,0 +1,6 @@
+[2018-07-05 05:45:07]错误发生在：System.Data，
+ 内容：在位置 1 处没有任何行。
+ [2018-07-05 05:45:07] 跟踪：   在 System.Data.RBTree`1.GetNodeByIndex(Int32 userIndex)
+   在 System.Data.DataRowCollection.get_Item(Int32 index)
+   在 GetDBdata.GetResult(DataTable dt) 位置 d:\DevelopProject\new预约挂号对账\App_Code\GetDBdata.cs:行号 359
+   在 _Default.RefreshCheckData(String request, String request_his) 位置 d:\DevelopProject\new预约挂号对账\Default.aspx.cs:行号 510
