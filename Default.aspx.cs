@@ -25,14 +25,16 @@ public partial class _Default : System.Web.UI.Page
     System.Data.DataTable dt_his_Result = new System.Data.DataTable();
     System.Data.DataTable dt_wy_Result = new System.Data.DataTable();
     System.Data.DataTable DtAll = new System.Data.DataTable();
+    public delegate string tLoadHISRequest(string request, string request2);//定义个获取his请求信息的委托
+    public delegate string tLoadWYRequest(string request, string request2);//定义个获取微医请求信息的委托
+    public delegate string tLoadHISData(string request);//定义个获取his信息的委托
+    public delegate string tLoadWYData(string request);//定义个获取微医信息的委托
     protected void Page_Load(object sender, EventArgs e)
     { 
         if (!IsPostBack)
         {
             txt_startDate.Text = DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd");
             txt_endDate.Text = DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd");
-            //System.Threading.Thread LoadServiceData = new System.Threading.Thread(new System.Threading.ThreadStart(LoadFromWebservice));
-            //LoadServiceData.Start();
         }
     }
     private void LoadFromWebservice()
@@ -81,10 +83,21 @@ public partial class _Default : System.Web.UI.Page
        
         else
         {
-            string _request = getReq(txt_startDate.Text.Trim(), txt_endDate.Text.Trim());
-            string request_his = gethisReq(txt_startDate.Text.Trim(), txt_endDate.Text.Trim());
-            //string request = gethisReq(txt_startDate.Text.Trim(), txt_endDate.Text.Trim());
-            RefreshCheckData(_request, request_his);
+            tLoadHISRequest tloadhisRequest = new tLoadHISRequest(gethisReq);
+            IAsyncResult result = tloadhisRequest.BeginInvoke(txt_startDate.Text.Trim(), txt_endDate.Text.Trim(), null, null);
+            tLoadWYRequest tLoadwyRequest = new tLoadWYRequest(getReq);
+            IAsyncResult result2 = tLoadwyRequest.BeginInvoke(txt_startDate.Text.Trim(), txt_endDate.Text.Trim(), null, null);
+            //string _requesthis = gethisReq(txt_startDate.Text.Trim(), txt_endDate.Text.Trim());
+            //List<string> _request = getReq(txt_startDate.Text.Trim(), txt_endDate.Text.Trim());
+            string _requesthis = tloadhisRequest.EndInvoke(result);
+            string _request = tLoadwyRequest.EndInvoke(result2);
+
+
+            RefreshCheckData(_request, _requesthis);
+            //string _request = getReq(txt_startDate.Text.Trim(), txt_endDate.Text.Trim());
+            //string request_his = gethisReq(txt_startDate.Text.Trim(), txt_endDate.Text.Trim());
+            ////string request = gethisReq(txt_startDate.Text.Trim(), txt_endDate.Text.Trim());
+            //RefreshCheckData(_request, request_his);
         }
 
     }
@@ -256,7 +269,7 @@ public partial class _Default : System.Web.UI.Page
         }
         else if (e.Row.RowType == DataControlRowType.Footer)
         {
-            e.Row.Cells[1].Text = RowsCount.ToString();
+            e.Row.Cells[1].Text = dt_wy.Rows.Count.ToString();// RowsCount.ToString();
             e.Row.Cells[3].Text = sum_TotalGet.ToString("F2");
             TotalDealCount.Text = "微医总交易数：" + e.Row.Cells[1].Text+"笔";
             TotalFeeCount.Text = "微医总金额：" + e.Row.Cells[3].Text+"元";
@@ -476,19 +489,19 @@ public partial class _Default : System.Web.UI.Page
     public void RefreshCheckData(String request,String request_his)
     {
         #region 查询明细数据
+
         initJavascript();
-        string strhisxml = gethisXml(request_his);
-        string strxml = getXml(request);
-        Logging.WriteWYlog(txt_startDate.Text + "至" + txt_endDate.Text + "的日志", strxml);
-        Logging.WriteHISlog(txt_startDate.Text + "至" + txt_endDate.Text + "的日志", strhisxml);
+        tLoadHISData tloadhis = new tLoadHISData(gethisXml);
+        IAsyncResult result = tloadhis.BeginInvoke(request_his, null, null);
+        tLoadWYData tloadwy = new tLoadWYData(getXml);
+        IAsyncResult result_WY = tloadwy.BeginInvoke(request, null, null);
+        string strhisxml = tloadhis.EndInvoke(result);
+        string strxml = tloadwy.EndInvoke(result_WY);
+
         dt_his = GetDBdata.XmlToDataTable(strhisxml);
         dt_wy = GetDBdata.XmlToDataTable(strxml);
         if (dt_wy!=null&&dt_his!=null)
-        {
-            RowsCount = dt_wy.Rows.Count;
-            HIS_RowsCount = dt_his.Rows.Count;
-            HIS_TotalFeeCount.Text="HIS总金额"+Convert.ToDecimal(ColumnSum(dt_his,"OWN_COST")).ToString("f2")+"元";
-            HIS_TotalDealCount.Text = "HIS总交易数"+Convert.ToString(HIS_RowsCount)+"笔";
+        { 
             try
             {
                 this.GridView.DataSource = dt_wy.DefaultView;
@@ -517,12 +530,9 @@ public partial class _Default : System.Web.UI.Page
                 {
                     foreach (DataRow dr in DtAll.Rows)
                     {
-
                         different_money= different_money+( Convert.ToDouble(DtAll.Rows[i]["Amounthis"]) -Convert.ToDouble(DtAll.Rows[i]["wxAmount"]));
                         DtAll.Rows[i]["different"] = different_money.ToString("f2");
                         different_money = 0;
-                       
-
                     }
 
                 }
@@ -555,6 +565,8 @@ public partial class _Default : System.Web.UI.Page
             }
             finally
             {
+                Logging.WriteWYlog(txt_startDate.Text + "至" + txt_endDate.Text + "的日志", strxml);
+                Logging.WriteHISlog(txt_startDate.Text + "至" + txt_endDate.Text + "的日志", strhisxml);
             }
         }
         else
