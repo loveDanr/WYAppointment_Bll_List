@@ -435,8 +435,9 @@ using System.IO.Compression;
                 for (int j = 0; j < dt2.Columns.Count; j++)
                 {
                     dt3.Rows[i][j + dt1.Columns.Count] = dt2.Rows[i][j].ToString();
-                }
+                } 
             }
+            
         }
         dt3.TableName = DTName; //设置DT的名字
         return dt3;

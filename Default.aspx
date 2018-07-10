@@ -7,8 +7,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>微医预约挂号平台对账</title>
-    <link id="cssfile" href="style.css" rel="stylesheet" type="text/css" />
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link id="cssfile" href="Css/style.css" rel="stylesheet" type="text/css" />
+    <link rel="shortcut icon" href="Images/favicon.ico" type="image/x-icon" />
 
 </head>
 <body onload="remove_loading();">
@@ -17,18 +17,22 @@
      <div class="top">
           <table border="0" class="tftableTop">
                 <tr>
-                        <td colspan="6" align="left" style="font-family:'Microsoft YaHei UI'; font-weight: bold; align-content:center; font-size: 28px;padding-bottom:30px; padding-left:100px;text-align:left;padding-left:160px;">微医预约挂号平台对账
+                    <td colspan="2" align="right">
+                        <img src="Images/公司.jpg">
+                        </td>
+                        <td colspan="6" align="left" style="font-family:'Microsoft YaHei UI'; font-weight: bold; align-content:center; font-size: 35px;padding-bottom:30px; padding-left:100px;text-align:left;padding-left:10px;"><p style="padding-top:30px;">预约挂号平台对账</p>
                     </td>
                 </tr>
-                <tr style="width:auto">
-                    <td align="right">
-                        <label style="font-family:'Microsoft YaHei UI';font-weight: bold">
+                <tr style="width:auto;text-align:left">
+                    <td align="left">
+                        <label style="font-family:'Microsoft YaHei UI';font-weight: bold;width:100px">
                             开始时间:</label>
+                         
                     </td>
-                    <td>
+                    <td align="left">
                      <dx:ASPxTimeEdit id="txt_startDate" runat="server" displayformatstring="yyyy-MM-dd" editformat="Custom" editformatstring="yyyy-MM-dd" width="120px"></dx:ASPxTimeEdit>
                     </td>
-                    <td align="right">
+                    <td align="left">
                      <label style="font-family:'Microsoft YaHei UI';font-weight: bold">
                             结束时间:</label>
                     </td>
@@ -41,10 +45,10 @@
              CssClass="button button-3d button-caution" onclick="download_btn_Click" /></td>
                 </tr>
                         
-              <tr align="center">
+             <%-- <tr align="center">
                   <td colspan="4" align="center" style="font-weight: bold; font-size: 15px;padding-bottom:5px; padding-left:100px;text-align:center;color:#ff0000"><dx:ASPxLabel runat="server" ID="TotalDealCount" Font-Bold="True" Font-Size="15px" ></dx:ASPxLabel>   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<dx:ASPxLabel runat="server" ID="TotalFeeCount" Font-Size="15px" Font-Bold="True"></dx:ASPxLabel></td>
                   <td colspan="4" align="center" style="font-weight: bold; font-size: 15px;padding-bottom:5px; padding-left:100px;text-align:center;color:#ff0000"><dx:ASPxLabel runat="server" ID="HIS_TotalDealCount" Font-Bold="True" Font-Size="15px"></dx:ASPxLabel>   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<dx:ASPxLabel runat="server" ID="HIS_TotalFeeCount" Font-Size="15px" Font-Bold="True"></dx:ASPxLabel></td>
-              </tr>
+              </tr>--%>
               <tr align="center">
                   <td colspan="4" align="center" style="font-weight: bold; font-size: 15px;padding-bottom:5px; padding-left:100px;text-align:center;color:#ff0000"><dx:ASPxLabel runat="server" ID="Notice" Font-Bold="True" Font-Size="15px" Text=""></dx:ASPxLabel></td>
               </tr>
@@ -54,7 +58,18 @@
         <div class="bottom2">
     
         <asp:GridView ID="GridView_Count" CssClass="msgtable" runat="server" 
-            EmptyDataText="无" ShowFooter="True" OnRowDataBound="GridView_Count_RowDataBound" OnRowCreated="GridView_Count_RowCreated">
+            EmptyDataText="无" ShowFooter="True" OnRowDataBound="GridView_Count_RowDataBound" OnRowCreated="GridView_Count_RowCreated" AutoGenerateColumns="False" OnRowCommand="GridView_Count_RowCommand">
+ 
+                <Columns>
+                    <asp:BoundField DataField="TradeDatehis" HeaderText="挂号日期" />
+                    <asp:BoundField DataField="Counthis" HeaderText="HIS交易记录数" />
+                    <asp:BoundField DataField="Amounthis" HeaderText="HIS交易金额" />
+                    <asp:BoundField DataField="TradeDate" HeaderText="微医交易日期" />
+                    <asp:BoundField DataField="wxCount" HeaderText="微信交易数" />
+                    <asp:BoundField DataField="wxAmount" HeaderText="微医交易金额" />
+                    <asp:BoundField DataField="different" HeaderText="双方差额" />
+                    <asp:ButtonField ButtonType="Button" ItemStyle-CssClass="add" HeaderText="查看详情" ControlStyle-Font-Size="12px"  Text="查看明细" CommandName="Check" />
+                </Columns>
  
                 <HeaderStyle CssClass="DataGridFixedHeader" BorderStyle="Solid" />
         </asp:GridView>
@@ -69,7 +84,7 @@
           </table>
         <asp:GridView ID="GridView" CssClass="msgtable" runat="server" 
             EmptyDataText="无" ShowFooter="True" OnRowDataBound="GridView_RowDataBound" 
-            OnRowCreated="GridView_RowCreated" Visible="true" >
+            OnRowCreated="GridView_RowCreated" Visible="False">
                 <HeaderStyle CssClass="DataGridFixedHeader" BorderStyle="Solid" />
         </asp:GridView>
       

@@ -14,12 +14,10 @@ using System.IO;
 using System.Xml;
 using System.Diagnostics;
 using System.Threading;
+ 
 
 public partial class _Default : System.Web.UI.Page
-{
-    public string start; public string end;
-    public int RowsCount;
-    public int HIS_RowsCount;
+{    
     System.Data.DataTable dt_wy = new System.Data.DataTable();
     System.Data.DataTable dt_his = new System.Data.DataTable();
     System.Data.DataTable dt_his_Result = new System.Data.DataTable();
@@ -35,7 +33,9 @@ public partial class _Default : System.Web.UI.Page
         {
             txt_startDate.Text = DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd");
             txt_endDate.Text = DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd");
+           
         }
+        
     }
     private void LoadFromWebservice()
     {
@@ -51,17 +51,25 @@ public partial class _Default : System.Web.UI.Page
         int intMinute = e.SignalTime.Minute;
         int intSecond = e.SignalTime.Second;
         // 定制时间； 比如 在10：30 ：00 的时候执行某个函数
-        int iHour = 18;
-        int iMinute = 34;
+        int iHour = 14;
+        int iMinute = 17;
         int iSecond = 00;
-        //// 设置　每天的１０：３０：００开始执行程序
-        //if (intHour == iHour && intMinute == iMinute && intSecond == iSecond)
-        //{ 
-        //      txt_startDate.Text = DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd");
-        //      txt_endDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
-        //      string request = getReq(txt_startDate,txt_endDate);
-        //RefreshCheckData(_request);
-        //}
+        // 设置　每天的１０：３０：００开始执行程序
+        if (intHour == iHour && intMinute == iMinute && intSecond == iSecond)
+        {
+            txt_startDate.Text = DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd");
+            txt_endDate.Text = DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd");
+            tLoadHISRequest tloadhisRequest = new tLoadHISRequest(gethisReq);
+            IAsyncResult result = tloadhisRequest.BeginInvoke(txt_startDate.Text.Trim(), txt_endDate.Text.Trim(), null, null);
+            tLoadWYRequest tLoadwyRequest = new tLoadWYRequest(getReq);
+            IAsyncResult result2 = tLoadwyRequest.BeginInvoke(txt_startDate.Text.Trim(), txt_endDate.Text.Trim(), null, null);
+
+            string _requesthis = tloadhisRequest.EndInvoke(result);
+            string _request = tLoadwyRequest.EndInvoke(result2);
+
+
+            RefreshCheckData(_request, _requesthis);
+        }
 
     }
     protected void btnSearch_Click(object sender, EventArgs e)
@@ -83,21 +91,18 @@ public partial class _Default : System.Web.UI.Page
        
         else
         {
+
             tLoadHISRequest tloadhisRequest = new tLoadHISRequest(gethisReq);
             IAsyncResult result = tloadhisRequest.BeginInvoke(txt_startDate.Text.Trim(), txt_endDate.Text.Trim(), null, null);
             tLoadWYRequest tLoadwyRequest = new tLoadWYRequest(getReq);
             IAsyncResult result2 = tLoadwyRequest.BeginInvoke(txt_startDate.Text.Trim(), txt_endDate.Text.Trim(), null, null);
-            //string _requesthis = gethisReq(txt_startDate.Text.Trim(), txt_endDate.Text.Trim());
-            //List<string> _request = getReq(txt_startDate.Text.Trim(), txt_endDate.Text.Trim());
+
             string _requesthis = tloadhisRequest.EndInvoke(result);
             string _request = tLoadwyRequest.EndInvoke(result2);
 
 
             RefreshCheckData(_request, _requesthis);
-            //string _request = getReq(txt_startDate.Text.Trim(), txt_endDate.Text.Trim());
-            //string request_his = gethisReq(txt_startDate.Text.Trim(), txt_endDate.Text.Trim());
-            ////string request = gethisReq(txt_startDate.Text.Trim(), txt_endDate.Text.Trim());
-            //RefreshCheckData(_request, request_his);
+
         }
 
     }
@@ -271,8 +276,8 @@ public partial class _Default : System.Web.UI.Page
         {
             e.Row.Cells[1].Text = dt_wy.Rows.Count.ToString();// RowsCount.ToString();
             e.Row.Cells[3].Text = sum_TotalGet.ToString("F2");
-            TotalDealCount.Text = "微医总交易数：" + e.Row.Cells[1].Text+"笔";
-            TotalFeeCount.Text = "微医总金额：" + e.Row.Cells[3].Text+"元";
+            //TotalDealCount.Text = "微医总交易数：" + e.Row.Cells[1].Text+"笔";
+            //TotalFeeCount.Text = "微医总金额：" + e.Row.Cells[3].Text+"元";
             e.Row.Cells[1].Font.Bold = true;
             e.Row.Cells[3].Font.Bold = true;
         }
@@ -386,7 +391,7 @@ public partial class _Default : System.Web.UI.Page
         HttpContext.Current.Response.Write("</style>");
         HttpContext.Current.Response.Write("<div id=loader_container>");
         //HttpContext.Current.Response.Write("<div id=loader>");
-        HttpContext.Current.Response.Write("<div align=center><img src='/loading.gif'/></div>");
+        HttpContext.Current.Response.Write("<div align=center><img src='/Images/loading.gif'/></div>");
         //HttpContext.Current.Response.Write("<div id=loader_bg> <div id=progress></div> </div>"); 
         HttpContext.Current.Response.Write("</div></div>");
         HttpContext.Current.Response.Flush();
@@ -504,20 +509,20 @@ public partial class _Default : System.Web.UI.Page
         { 
             try
             {
-                this.GridView.DataSource = dt_wy.DefaultView;
-                this.GridView.DataBind();
-                for (int i = dt_his.Rows.Count-1;i>=0; i--)
-                {
-                    for (int k =0; k < dt_wy.Rows.Count; k++)
-                    {
-                        if (dt_his.Rows[i][3].ToString() == dt_wy.Rows[k][11].ToString() && dt_his.Rows[i][13].ToString() == dt_wy.Rows[k][1].ToString() && dt_his.Rows[i][1].ToString() == dt_wy.Rows[k][2].ToString())
-                        {
-                            GridView.Rows[k].BackColor = System.Drawing.Color.Green;
-                        }
+                //this.GridView.DataSource = dt_wy.DefaultView;
+                //this.GridView.DataBind();
+                //for (int i = dt_his.Rows.Count-1;i>=0; i--)
+                //{
+                //    for (int k =0; k < dt_wy.Rows.Count; k++)
+                //    {
+                //        if (dt_his.Rows[i][3].ToString() == dt_wy.Rows[k][11].ToString() && dt_his.Rows[i][13].ToString() == dt_wy.Rows[k][1].ToString() && dt_his.Rows[i][1].ToString() == dt_wy.Rows[k][2].ToString())
+                //        {
+                //            GridView.Rows[k].BackColor = System.Drawing.Color.Green;
+                //        }
 
-                    }
+                //    }
                     
-                }
+                //}
 
                 #region 统计所有数据
                 dt_his_Result = GetDBdata.GetResult(dt_his);
@@ -537,7 +542,7 @@ public partial class _Default : System.Web.UI.Page
 
                 }
 
-                
+                this.GridView.Visible = false;
                 this.GridView_Count.DataSource = DtAll.DefaultView;
                 this.GridView_Count.DataBind();
                 #endregion
@@ -702,12 +707,12 @@ public partial class _Default : System.Web.UI.Page
         if (e.Row.Cells[6].Text == "0.00")
         {
             DetailsListTitle.Visible = false;
-            TotalDealCount.Visible = false;
-            TotalFeeCount.Visible = false;
-            HIS_TotalDealCount.Visible = false;
-            HIS_TotalFeeCount.Visible = false;
-            GridView.Visible = false;
-            string str = HIS_TotalFeeCount.Text.Trim();
+            //TotalDealCount.Visible = false;
+            //TotalFeeCount.Visible = false;
+            //HIS_TotalDealCount.Visible = false;
+            //HIS_TotalFeeCount.Visible = false;
+          //  GridView.Visible = false;
+            string str = "HIS总金额" + sum_Total_his_amount.ToString("f2") + "元";//HIS_TotalFeeCount.Text.Trim();
             if (txt_startDate.Text == txt_endDate.Text)
             {
                 Notice.Text = "恭喜！" + txt_startDate.Text.Trim() + "的账平啦！\r\r\n 总金额是：" + str.Replace("HIS总金额", "￥");
@@ -719,10 +724,10 @@ public partial class _Default : System.Web.UI.Page
         }
         else if (e.Row.Cells[6].Text != "0.00")
         {
-            TotalDealCount.Visible = false;
-            TotalFeeCount.Visible = false;
-            HIS_TotalDealCount.Visible = false;
-            HIS_TotalFeeCount.Visible = false;
+            //TotalDealCount.Visible = false;
+            //TotalFeeCount.Visible = false;
+            //HIS_TotalDealCount.Visible = false;
+            //HIS_TotalFeeCount.Visible = false;
             Notice.Text = "注意！有账不平啦！";
             GridView.Visible = true;
             DetailsListTitle.Visible = true;
@@ -780,6 +785,73 @@ public partial class _Default : System.Web.UI.Page
             #endregion
         }
     }
-  
+
+     
+
+    protected void GridView_Count_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        GridView.Visible = false;
+        if (e.CommandName == "Check")
+        {
+            initJavascript();
+            int id =Convert.ToInt32(e.CommandArgument);
+            GridViewRow row = GridView_Count.Rows[id];
+            string CheckDate = row.Cells[0].Text.ToString();//Convert.ToString(this.GridView_Count.Rows[id].Cells[0].ToString());
+
+                if (dt_wy != null && dt_his != null)
+                {
+                    try
+                    {
+                        tLoadHISRequest tloadhisRequest = new tLoadHISRequest(gethisReq);
+                        IAsyncResult result = tloadhisRequest.BeginInvoke(CheckDate, CheckDate, null, null);
+                        tLoadWYRequest tLoadwyRequest = new tLoadWYRequest(getReq);
+                        IAsyncResult result2 = tLoadwyRequest.BeginInvoke(CheckDate, CheckDate, null, null);
+
+                        string _requesthis = tloadhisRequest.EndInvoke(result);
+                        string _request = tLoadwyRequest.EndInvoke(result2);
+
+                        tLoadHISData tloadhis = new tLoadHISData(gethisXml);
+                        IAsyncResult resulthis = tloadhis.BeginInvoke(_requesthis, null, null);
+                        tLoadWYData tloadwy = new tLoadWYData(getXml);
+                        IAsyncResult result_WY = tloadwy.BeginInvoke(_request, null, null);
+                        string strhisxml = tloadhis.EndInvoke(resulthis);
+                        string strxml = tloadwy.EndInvoke(result_WY);
+
+                        dt_his = GetDBdata.XmlToDataTable(strhisxml);
+                        dt_wy = GetDBdata.XmlToDataTable(strxml);
+                        this.GridView.DataSource = dt_wy.DefaultView;
+                        this.GridView.DataBind();
+                        for (int i = dt_his.Rows.Count - 1; i >= 0; i--)
+                        {
+                            for (int k = 0; k < dt_wy.Rows.Count; k++)
+                            {
+                                if (dt_his.Rows[i][3].ToString() == dt_wy.Rows[k][11].ToString() && dt_his.Rows[i][13].ToString() == dt_wy.Rows[k][1].ToString() && dt_his.Rows[i][1].ToString() == dt_wy.Rows[k][2].ToString())
+                                {
+                                    GridView.Rows[k].BackColor = System.Drawing.Color.Green;
+                                }
+
+                            }
+
+                        }
+                    DetailsListTitle.Visible = true;
+                    DetailsListTitle.Text = CheckDate + "的明细单。 备注：绿色是匹配成功的订单，白色是HIS没有的订单";
+                }
+                    catch (Exception ex)
+                    {
+                        Logging.WriteBuglog(ex);
+                    }
+                    finally
+                    {
+                   this.GridView.Visible = true;
+                }
+
+            }
+            else
+            {
+                //this.GridView.Visible = true;
+                
+            }
+        }
+    }
 }
 
