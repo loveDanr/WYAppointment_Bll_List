@@ -29,6 +29,7 @@ public partial class _Default : System.Web.UI.Page
     public delegate string tLoadWYData(string request);//定义个获取微医信息的委托
     protected void Page_Load(object sender, EventArgs e)
     { 
+        //启动时设置时间
         if (!IsPostBack)
         {
             txt_startDate.Text = DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd");
