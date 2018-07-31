@@ -17,7 +17,8 @@ using System.Threading;
  
 
 public partial class _Default : System.Web.UI.Page
-{    
+{
+    public static string msg = "";
     System.Data.DataTable dt_wy = new System.Data.DataTable();
     System.Data.DataTable dt_his = new System.Data.DataTable();
     System.Data.DataTable dt_his_Result = new System.Data.DataTable();
@@ -27,6 +28,8 @@ public partial class _Default : System.Web.UI.Page
     public delegate string tLoadWYRequest(string request, string request2);//定义个获取微医请求信息的委托
     public delegate string tLoadHISData(string request);//定义个获取his信息的委托
     public delegate string tLoadWYData(string request);//定义个获取微医信息的委托
+
+    Thread tLoadHISFile,tLoadDetails;
     protected void Page_Load(object sender, EventArgs e)
     { 
         //启动时设置时间
@@ -69,43 +72,56 @@ public partial class _Default : System.Web.UI.Page
             string _request = tLoadwyRequest.EndInvoke(result2);
 
 
-            RefreshCheckData(_request, _requesthis);
+          //  RefreshCheckData(_request, _requesthis);
         }
 
     }
     protected void btnSearch_Click(object sender, EventArgs e)
     {
-        DateTime t1 = Convert.ToDateTime(txt_startDate.Text.Trim());
-        DateTime t2 = Convert.ToDateTime(txt_endDate.Text.Trim());
-        DateTime t3 = Convert.ToDateTime(System.DateTime.Now.ToString("yyyy-MM-dd"));
-        if (DateTime.Compare(t1, t2) > 0)
-        {
-            //strErr += "截止日期必须在发布日期之后！";
-            //HttpContext.Current.Response.Write(" <script>alert('没有数据可导出！');");
-            // Response.Write(" <script>function window.onload() {alert( ' 弹出的消息' ); } </script> ");
-            Page.ClientScript.RegisterStartupScript(this.GetType(), "", "<script>alert('开始时间大于结束时间啦！');</script>");
-        }
-        //else if (DateTime.Compare(t2, t3) < 0)
-        //{
-        //    Page.ClientScript.RegisterStartupScript(this.GetType(), "", "<script>alert('时间选择有误，请重新选择！');</script>");
-        //}
        
-        else
-        {
+                        try
+                        {
+                            DateTime t1 = Convert.ToDateTime(txt_startDate.Text.Trim());
+                            DateTime t2 = Convert.ToDateTime(txt_endDate.Text.Trim());
+                            DateTime t3 = Convert.ToDateTime(System.DateTime.Now.ToString("yyyy-MM-dd"));
+                            if (DateTime.Compare(t1, t2) > 0)
+                            {
+                // msg = "开始时间大于结束时间啦!";
+                //strErr += "截止日期必须在发布日期之后！";
+                //HttpContext.Current.Response.Write(" <script>alert('没有数据可导出！');");
+                // Response.Write(" <script>function window.onload() {alert( ' 弹出的消息' ); } </script> ");
+               Page.ClientScript.RegisterStartupScript(this.GetType(), "", "<script>alert('开始时间大于结束时间啦！');</script>");
+                 
+                            }
+                            //else if (DateTime.Compare(t2, t3) < 0)
+                            //{
+                            //    Page.ClientScript.RegisterStartupScript(this.GetType(), "", "<script>alert('时间选择有误，请重新选择！');</script>");
+                            //}
 
-            tLoadHISRequest tloadhisRequest = new tLoadHISRequest(gethisReq);
-            IAsyncResult result = tloadhisRequest.BeginInvoke(txt_startDate.Text.Trim(), txt_endDate.Text.Trim(), null, null);
-            tLoadWYRequest tLoadwyRequest = new tLoadWYRequest(getReq);
-            IAsyncResult result2 = tLoadwyRequest.BeginInvoke(txt_startDate.Text.Trim(), txt_endDate.Text.Trim(), null, null);
+                            else
+                            {
+                initJavascript();
+                tLoadHISFile = new Thread(RefreshCheckData);
+                tLoadHISFile.Start();
+                tLoadHISFile.Join();
+                                //tLoadHISRequest tloadhisRequest = new tLoadHISRequest(gethisReq);
+                                //IAsyncResult result = tloadhisRequest.BeginInvoke(txt_startDate.Text.Trim(), txt_endDate.Text.Trim(), null, null);
+                                //tLoadWYRequest tLoadwyRequest = new tLoadWYRequest(getReq);
+                                //IAsyncResult result2 = tLoadwyRequest.BeginInvoke(txt_startDate.Text.Trim(), txt_endDate.Text.Trim(), null, null);
 
-            string _requesthis = tloadhisRequest.EndInvoke(result);
-            string _request = tLoadwyRequest.EndInvoke(result2);
+                                //string _requesthis = tloadhisRequest.EndInvoke(result);
+                                //string _request = tLoadwyRequest.EndInvoke(result2);
 
 
-            RefreshCheckData(_request, _requesthis);
+                            //    RefreshCheckData(_request, _requesthis);
 
-        }
-
+                            }
+                        }
+                        catch( Exception ex)
+                        {
+            return;
+                        }
+                  
     }
     #region  获取his入参
     /// <summary>
@@ -358,6 +374,23 @@ public partial class _Default : System.Web.UI.Page
     /// </summary>
     /// <param name="control"></param>
     public override void VerifyRenderingInServerForm(Control control) { }
+
+    public static void ShowWarn()
+    {
+        //function(){
+        //    //配置一个透明的询问框
+        //layer.msg('大部分参数都是可以公用的<br>合理搭配，展示不一样的风格', {
+        //time: 20000, //20s后自动关闭
+        //btn: ['明白了', '知道了', '哦']
+        //    });
+        //}
+        HttpContext.Current.Response.Write(" <script language=JavaScript type=text/javascript>");
+        HttpContext.Current.Response.Write("function(){");
+        HttpContext.Current.Response.Write(" layer.msg('大部分参数都是可以公用的<br>合理搭配，展示不一样的风格', {");
+        HttpContext.Current.Response.Write("btn: ['明白了', '知道了', '哦']");
+        HttpContext.Current.Response.Write("  });");
+        HttpContext.Current.Response.Flush();
+    }
     #region "页面加载中效果"
     /// <summary>
     /// 页面加载中效果
@@ -387,8 +420,8 @@ public partial class _Default : System.Web.UI.Page
         HttpContext.Current.Response.Write("<style>");
         HttpContext.Current.Response.Write("#loader_container {text-align:center; position:absolute; top:20%;width:100%; left: 0;}");
         //HttpContext.Current.Response.Write("#loader {font-family:Tahoma, Helvetica, sans; font-size:13.5px; color:#000000; background-color:#FFFFFF; padding:10px 0 16px 0; margin:0 auto; display:block; width:130px;height: 40px; border:1px solid #5a667b; text-align:left; z-index:2;}");
-        //HttpContext.Current.Response.Write("#progress {height:5px; font-size:5px; width:5px; position:relative; top:1px; left:0px; background-color:#8894a8;}");
-        HttpContext.Current.Response.Write("#loader_bg {background-color:#e4e7eb; position:relative; top:8px; left:8px; height:7px; width:113px; font-size:1px;}");
+        //HttpContext.Current.Response.Write("#progress {height:5px; font-size:5px; width:5px; position:relative; top:1px; left:0px; background-color:#8894a8;}");background-color:#e4e7eb; 
+        HttpContext.Current.Response.Write("#loader_bg {position:relative; top:8px; left:8px; height:7px; width:113px; font-size:1px;}");
         HttpContext.Current.Response.Write("</style>");
         HttpContext.Current.Response.Write("<div id=loader_container>");
         //HttpContext.Current.Response.Write("<div id=loader>");
@@ -492,15 +525,25 @@ public partial class _Default : System.Web.UI.Page
     /// <summary>
     /// 刷新数据明细数据
     /// </summary>
-    public void RefreshCheckData(String request,String request_his)
+    public void RefreshCheckData()
     {
         #region 查询明细数据
+        
+         //initJavascript();
+        tLoadHISRequest tloadhisRequest = new tLoadHISRequest(gethisReq);
+        IAsyncResult result_his = tloadhisRequest.BeginInvoke(txt_startDate.Text.Trim(), txt_endDate.Text.Trim(), null, null);
+        tLoadWYRequest tLoadwyRequest = new tLoadWYRequest(getReq);
+        IAsyncResult result2 = tLoadwyRequest.BeginInvoke(txt_startDate.Text.Trim(), txt_endDate.Text.Trim(), null, null);
 
-        initJavascript();
+        
+
+        string _requesthis = tloadhisRequest.EndInvoke(result_his);
+        string _request = tLoadwyRequest.EndInvoke(result2);
+
         tLoadHISData tloadhis = new tLoadHISData(gethisXml);
-        IAsyncResult result = tloadhis.BeginInvoke(request_his, null, null);
+        IAsyncResult result = tloadhis.BeginInvoke(_requesthis, null, null);
         tLoadWYData tloadwy = new tLoadWYData(getXml);
-        IAsyncResult result_WY = tloadwy.BeginInvoke(request, null, null);
+        IAsyncResult result_WY = tloadwy.BeginInvoke(_request, null, null);
         string strhisxml = tloadhis.EndInvoke(result);
         string strxml = tloadwy.EndInvoke(result_WY);
 
@@ -531,13 +574,15 @@ public partial class _Default : System.Web.UI.Page
                 DtAll = GetDBdata.UniteDataTable(dt_his_Result, dt_wy_Result, "合并Dt");
                 DtAll.Columns.AddRange(new DataColumn[] { new DataColumn("different", typeof(double)) });
                 DataRow drw = DtAll.NewRow();
-                double different_money=0.00;
+                double different_money=0.00;  
                 for (int i = 0; i < DtAll.Rows.Count; i++)
                 {
                     foreach (DataRow dr in DtAll.Rows)
                     {
-                        different_money= different_money+( Convert.ToDouble(DtAll.Rows[i]["Amounthis"]) -Convert.ToDouble(DtAll.Rows[i]["wxAmount"]));
+                       
+                        different_money = different_money+( Convert.ToDouble(DtAll.Rows[i]["Amounthis"]) -Convert.ToDouble(DtAll.Rows[i]["wxAmount"]));
                         DtAll.Rows[i]["different"] = different_money.ToString("f2");
+
                         different_money = 0;
                     }
 
@@ -546,6 +591,7 @@ public partial class _Default : System.Web.UI.Page
                 this.GridView.Visible = false;
                 this.GridView_Count.DataSource = DtAll.DefaultView;
                 this.GridView_Count.DataBind();
+                
                 #endregion
                 #region 账不平的变红色
 

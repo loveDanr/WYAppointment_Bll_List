@@ -8,7 +8,34 @@
 <head>
     <title>微医预约挂号平台对账</title>
     <link id="cssfile" href="Css/style.css" rel="stylesheet" type="text/css" />
+    <link id="cssfile2" href="layui/css/layui.css" rel="stylesheet" type="text/css" />
     <link rel="shortcut icon" href="Images/favicon.ico" type="image/x-icon" />
+    <script type="text/javascript" src="layui/layui.js"></script>
+     
+   
+<%-- <script type="text/javascript">
+    
+         $(document).ready(function () {
+             $("#Button1").click(function () {
+                 var options = {
+                     url: 'Default.aspx?Action=SaveInfo',
+                     type: 'post',
+                     dataType: 'text',
+                     data: $("#form1").serialize(),
+                     success: function (data) {
+                         if (data.length > 0)
+                             $("#responseText").text(data);
+                         //                            alert("保存成功！");
+                         //                        else
+                         //                            alert("保存失败");
+                     }
+                 };
+                 $.ajax(options);
+                 return false;
+             });
+         });
+     
+    </script>--%>
 
 </head>
 <body onload="remove_loading();">
@@ -30,19 +57,24 @@
                          
                     </td>
                     <td align="left">
-                     <dx:ASPxTimeEdit id="txt_startDate" runat="server" displayformatstring="yyyy-MM-dd" editformat="Custom" editformatstring="yyyy-MM-dd" width="120px"></dx:ASPxTimeEdit>
+                     <dx:ASPxTimeEdit id="txt_startDate"   runat="server" displayformatstring="yyyy-MM-dd" editformat="Custom" editformatstring="yyyy-MM-dd" width="120px"></dx:ASPxTimeEdit>
+                     
                     </td>
                     <td align="left">
                      <label style="font-family:'Microsoft YaHei UI';font-weight: bold">
                             结束时间:</label>
                     </td>
                         <td>
-                          <dx:ASPxTimeEdit id="txt_endDate" runat="server" displayformatstring="yyyy-MM-dd" editformat="Custom" editformatstring="yyyy-MM-dd" width="120px"></dx:ASPxTimeEdit>
+                            
+                          <dx:ASPxTimeEdit id="txt_endDate"  runat="server" displayformatstring="yyyy-MM-dd" editformat="Custom" editformatstring="yyyy-MM-dd" width="120px"></dx:ASPxTimeEdit>
                     </td>
-                    
-                        <td>
-                            <asp:Button ID="btnSearch" runat="server" Text="查询" onclick="btnSearch_Click" CssClass="button button-3d button-caution" /></td><td><asp:Button ID="download_btn" runat="server" Text="下载" 
-             CssClass="button button-3d button-caution" onclick="download_btn_Click" /></td>
+                    <div class="layui-btn-container">
+   <td>   <asp:Button ID="Button1" runat="server" Text="查询" CssClass="layui-btn" OnClick="btnSearch_Click" /><td><asp:Button ID="Button2" runat="server" Text="下载" 
+           CssClass="layui-btn"     onclick="download_btn_Click" />
+</div>
+                     <%--   <td>
+                            <asp:Button ID="btnSearch" runat="server" Text="查询" onclick="btnSearch_Click" CssClass="layui-btn" /></td><td><asp:Button ID="download_btn" runat="server" Text="下载" 
+             CssClass="layui-btn" onclick="download_btn_Click" /></td>--%>
                 </tr>
                         
              <%-- <tr align="center">
@@ -50,15 +82,17 @@
                   <td colspan="4" align="center" style="font-weight: bold; font-size: 15px;padding-bottom:5px; padding-left:100px;text-align:center;color:#ff0000"><dx:ASPxLabel runat="server" ID="HIS_TotalDealCount" Font-Bold="True" Font-Size="15px"></dx:ASPxLabel>   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<dx:ASPxLabel runat="server" ID="HIS_TotalFeeCount" Font-Size="15px" Font-Bold="True"></dx:ASPxLabel></td>
               </tr>--%>
               <tr align="center">
-                  <td colspan="4" align="center" style="font-weight: bold; font-size: 15px;padding-bottom:5px; padding-left:100px;text-align:center;color:#ff0000"><dx:ASPxLabel runat="server" ID="Notice" Font-Bold="True" Font-Size="15px" Text=""></dx:ASPxLabel></td>
+                  
+                
+                  <td colspan="4" align="center" style="font-weight: bold; font-size: 15px;padding-bottom:5px; padding-left:100px;text-align:center;color:#ff0000"><asp:Label runat="server" ID="Notice" Font-Bold="True" Font-Size="15px" Text=""></asp:Label></td>
               </tr>
             </table>
    
     </div>
         <div class="bottom2">
     
-        <asp:GridView ID="GridView_Count" CssClass="msgtable" runat="server" 
-            EmptyDataText="无" ShowFooter="True" OnRowDataBound="GridView_Count_RowDataBound" OnRowCreated="GridView_Count_RowCreated" AutoGenerateColumns="False" OnRowCommand="GridView_Count_RowCommand">
+        <asp:GridView ID="GridView_Count" CssClass="layui-table" lay-size="lg" runat="server" 
+            EmptyDataText="无" ShowFooter="True" Visible="true" OnRowDataBound="GridView_Count_RowDataBound" OnRowCreated="GridView_Count_RowCreated" AutoGenerateColumns="False" OnRowCommand="GridView_Count_RowCommand">
  
                 <Columns>
                     <asp:BoundField DataField="TradeDatehis" HeaderText="挂号日期" />
@@ -68,10 +102,10 @@
                     <asp:BoundField DataField="wxCount" HeaderText="微信交易数" />
                     <asp:BoundField DataField="wxAmount" HeaderText="微医交易金额" />
                     <asp:BoundField DataField="different" HeaderText="双方差额" />
-                    <asp:ButtonField ButtonType="Button" ItemStyle-CssClass="add" HeaderText="查看详情" ControlStyle-Font-Size="12px"  Text="查看明细" CommandName="Check" />
+                    <asp:ButtonField ButtonType="Button"  ItemStyle-CssClass="add" HeaderText="查看详情" ControlStyle-Font-Size="12px"  Text="查看明细" CommandName="Check" />
                 </Columns>
  
-                <HeaderStyle CssClass="DataGridFixedHeader" BorderStyle="Solid" />
+               <%-- <HeaderStyle CssClass="DataGridFixedHeader" BorderStyle="Solid" />--%>
         </asp:GridView>
      
     </div>
